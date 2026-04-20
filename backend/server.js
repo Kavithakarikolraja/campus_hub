@@ -14,7 +14,11 @@ const app = express();
 const server = http.createServer(app);
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: process.env.FRONTEND_URL || '*', // Ensure to set FRONTEND_URL in Render to your Vercel URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,
+}));
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
@@ -33,7 +37,7 @@ app.use('/api/posts', require('./routes/postRoutes'));
 // Socket.io for Real-Time Chat
 const io = new Server(server, {
     cors: {
-        origin: process.env.FRONTEND_URL || "http://localhost:5173", // Dynamic for Vercel/Render
+        origin: process.env.FRONTEND_URL || "*", // Ensure to set FRONTEND_URL in Render to your Vercel URL
         methods: ["GET", "POST"]
     }
 });

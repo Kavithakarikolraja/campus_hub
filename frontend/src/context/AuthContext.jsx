@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
 
     // Global Socket Setup
     useEffect(() => {
-        const newSocket = io(import.meta.env.VITE_API_URL || 'http://localhost:5000');
+        const newSocket = io(import.meta.env.VITE_API_URL);
         setSocket(newSocket);
 
         newSocket.on('update_online_users', (users) => {
